@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> CatchMe </title>
+	<script src="jquery-1.11.0.min.js" type="text/javascript"></script>
+	
+	<script>
+		function position(x, y){
+			this.x = x;
+			this.y = y;
+			console.log("x = " + this.x + " y = "+ this.y); 		
+
+			}
+		var position1 = new position(200, 200);
+		
+		
+		var level = 0;
+		
+		var speed = new Array();
+		speed[0]= 35;
+		speed[1] = 40;
+		speed[2] = 47;
+		speed[3] = 55;
+		speed[4] = 65;
+		speed[5] = 70;
+		speed[6] = 85;
+		
+		var size = new Array();
+		size[0] = 75;
+		size[1] = 70;
+		size[2] = 65;
+		size[3] = 60;
+		size[4] = 55;
+		size[5] = 50;
+		size[6] = 45;
+		
+		var color = new Array();
+		color[0] = "red";
+		color[1] = "green";
+		color[2] = "blue";
+		color[3] = "black";
+		color[4] = "grey";
+		color[5] = "orange";
+		color[6] = "yellow";
+		
+		var colorIndex = 0;
+		
+		var congratulations = new Array();
+		congratulations[1] = "Alright, that was an easy one. Let's see if you can catch me now.";
+		congratulations[2] = "Not bad. Try now...";
+		congratulations[3] = "OK. I'm actually going to step up my game now.";
+		congratulations[4] = "Ahhh... You caught me off guard there.";
+		congratulations[5] = "Fuck, you're really good.";
+		congratulations[6] = "You might even be quicker than me";
+		congratulations[7] = "I give up. You win.";
+		
+		var windowWidth = $(window).width();
+		var windowHeight = $(window).height();
+		var goingDown = true;
+		var goingRight = true;
+		
+		function moveBall(){
+
+		if(position1.x+speed[level]+size[level] > windowWidth){
+				goingRight = false;
+				$("div").css("background-color",color[(++colorIndex)%7]);
+
+				}
+		else if(position1.x -speed[level] < 0){
+				$("div").css("background-color",color[(++colorIndex)%7]);
+
+				goingRight = true;
+			}
+		if(position1.y+speed[level]+size[level] > windowHeight){
+				$("div").css("background-color",color[(++colorIndex) %7]);
+				goingDown = false;
+				}
+		else if(position1.y-speed[level] < 0){
+				$("div").css("background-color",color[(++colorIndex)%7]);
+				goingDown = true;
+				}
+				
+				
+		if(goingRight){
+				position1.x +=speed[level];
+				}
+		else{
+				position1.x -=speed[level];
+				}
+		if(goingDown){
+				position1.y +=speed[level];
+				}	
+		else{
+			position1.y -=speed[level];
+			}
+				console.log("x = " + position1.x + " y = " + position1.y); 		
+			
+			$("div").css("left", position1.x);
+			$("div").css("top", position1.y);
+			
+		;
+		}
+		
+		function nextLevel(){
+			level++;
+			$("h1").html(congratulations[level]);
+			$("p").html("");
+			$("h2").html("Level : " + (level+1));
+			$("div").css({"width": size[level], "height": size[level]});
+			moveBall();
+			if(level == 7){
+				$("div").css({"display": "none"});
+				;}
+				
+		;}
+		
+	
+		$(document).ready(function(){
+
+			$("h1").css({"color":"red","font-size":"400%", "font-family":"Helvetica", "padding-top": (windowHeight/2)-100, "margin-right":"auto", "margin-left": "auto", "padding-left": "50px"}),
+			$("p").css({"color":"green","margin-left":"50px", "font-family":"Helvetica","margin-top": "-30px"}),
+			$("div").click(function() {
+			nextLevel(),
+			$("p").html(""),
+
+
+			$("div").css("background-color","pink");}),
+		
+			$("div").mouseover(function(){
+				moveBall();
+				}),
+			$("div").css("left", position1.x);
+
+			$("div").css("top", position1.y); 
+
+	
+
+			});		
+			
+			$(window).resize(function() {
+  				windowWidth = $(window).width();
+				windowHeight = $(window).height();
+			});
+		
+			</script>
+	
+	</head>
+<body>
+		<h1>Catch me if you can!</h1>
+		<h2 style="position: absolute; top: 25px; right: 50px;">Level : 1 </h2>
+		<p> Click on the circle to win</p>
+		<div id="circle" style="height: 75px; width:75px; background-color: blue; border-radius: 300px; position: absolute;"></div>
+<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fweb.nyu.sh%2Fel1596%2Fball%2F&amp;width=60&amp;layout=box_count&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=65" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:60px; height:65px; position: absolute; bottom: 60px; right: 50px;" allowTransparency="true"></iframe>
+
+</body>
+</html>
